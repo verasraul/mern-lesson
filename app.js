@@ -1,15 +1,16 @@
-const mongoose = require('mongoose')
+const express = require('express');
+const cors = require('cors');
+const logger = require('morgan');
 
-// connect to Mongo and create new DB
-let MONGO_URI = process.env.PROD_MONGODB || process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/itemsDatabase'
 
-mongoose.connect(MONGO_URI, { useUnifiedTopology: true,
-useNewParser: true }).then(() => {
-    console.log('Successfully connected to MongoDB')
-  }).catch(e => {
-    console.error('Connection error', e.message)
-  })
-  
-  const db = mongoose.connection
-  
-  module.exports = db
+
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cors())
+
+
+app.use(logger('dev'));
+
+
+module.exports = app
